@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import * as Notifications from 'expo-notifications';
 import { RECIPES } from '../../../constants/data';
 import { useTheme } from '../../../context/ThemeContext';
 
@@ -47,6 +48,7 @@ export default function CookingScreen() {
     return parseMinutes(recipe.time) * 60;
   }, [recipe?.time]);
 
+  const [configuredSeconds, setConfiguredSeconds] = useState(defaultSeconds);
   const [remainingSeconds, setRemainingSeconds] = useState(defaultSeconds);
   const [isRunning, setIsRunning] = useState(false);
   const [checkedIngredients, setCheckedIngredients] = useState({});
@@ -55,9 +57,14 @@ export default function CookingScreen() {
   const [completedSteps, setCompletedSteps] = useState({});
 
   useEffect(() => {
+    setConfiguredSeconds(defaultSeconds);
     setRemainingSeconds(defaultSeconds);
     setIsRunning(false);
   }, [defaultSeconds]);
+
+  useEffect(() => {
+    Notifications.requestPermissionsAsync().catch(() => {});
+  }, []);
 
   useEffect(() => {
     setCurrentStepIndex(0);
@@ -72,6 +79,14 @@ export default function CookingScreen() {
         if (prev <= 1) {
           clearInterval(timer);
           setIsRunning(false);
+          Notifications.scheduleNotificationAsync({
+            content: {
+              title: 'Timer done',
+              body: `${recipe?.title ?? 'Recipe'} is ready for the next step.`,
+              sound: 'default',
+            },
+            trigger: null,
+          }).catch(() => {});
           return 0;
         }
         return prev - 1;
@@ -110,14 +125,35 @@ export default function CookingScreen() {
 
   const handleReset = () => {
     setIsRunning(false);
-    setRemainingSeconds(defaultSeconds);
+    setRemainingSeconds(configuredSeconds);
+  };
+
+  const adjustTimerByMinutes = (minuteDelta) => {
+    if (isRunning) return;
+
+    const nextSeconds = Math.max(60, configuredSeconds + (minuteDelta * 60));
+    setConfiguredSeconds(nextSeconds);
+    setRemainingSeconds(nextSeconds);
   };
 
   const markCurrentStepDone = () => {
+    const nextDone = !completedSteps[currentStepIndex];
+
     setCompletedSteps((prev) => ({
       ...prev,
-      [currentStepIndex]: !prev[currentStepIndex],
+      [currentStepIndex]: nextDone,
     }));
+
+    if (nextDone) {
+      Notifications.scheduleNotificationAsync({
+        content: {
+          title: `Step ${currentStepIndex + 1} done`,
+          body: steps[currentStepIndex],
+          sound: 'default',
+        },
+        trigger: null,
+      }).catch(() => {});
+    }
   };
 
   const goToPreviousStep = () => {
@@ -145,6 +181,24 @@ export default function CookingScreen() {
         <View style={[styles.timerCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
           <Text style={[styles.timerLabel, { color: theme.textMuted }]}>Recipe timer</Text>
           <Text style={[styles.timerValue, { color: theme.text }]}>{formatTime(remainingSeconds)}</Text>
+
+          <View style={styles.adjustRow}>
+            <Text style={[styles.adjustLabel, { color: theme.textMuted }]}>Set timer</Text>
+            <Pressable
+              style={[styles.adjustButton, { borderColor: theme.border, backgroundColor: theme.background }, isRunning && styles.disabledButton]}
+              onPress={() => adjustTimerByMinutes(-1)}
+              disabled={isRunning}
+            >
+              <Text style={[styles.adjustButtonText, { color: theme.text }]}>-1 min</Text>
+            </Pressable>
+            <Pressable
+              style={[styles.adjustButton, { borderColor: theme.border, backgroundColor: theme.background }, isRunning && styles.disabledButton]}
+              onPress={() => adjustTimerByMinutes(1)}
+              disabled={isRunning}
+            >
+              <Text style={[styles.adjustButtonText, { color: theme.text }]}>+1 min</Text>
+            </Pressable>
+          </View>
 
           <View style={styles.timerActions}>
             <Pressable style={[styles.primaryButton, { backgroundColor: theme.accent }]} onPress={handleStartPause}>
@@ -297,6 +351,26 @@ const styles = StyleSheet.create({
   timerActions: {
     flexDirection: 'row',
     gap: 10,
+  },
+  adjustRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  adjustLabel: {
+    fontSize: 13,
+    fontWeight: '600',
+    marginRight: 'auto',
+  },
+  adjustButton: {
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+  },
+  adjustButtonText: {
+    fontSize: 13,
+    fontWeight: '600',
   },
   primaryButton: {
     borderRadius: 12,

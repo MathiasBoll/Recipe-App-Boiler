@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Pressable, ScrollView, Alert, Vibration, Switch, Linking, Platform } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Pressable, ScrollView, Alert, Vibration, Switch, Linking, Platform, TextInput } from 'react-native';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
@@ -34,6 +34,9 @@ export default function BootcampScreen() {
   const [locationError, setLocationError] = useState('');
   const [quote, setQuote] = useState('❓');
   const [timerMessage, setTimerMessage] = useState('No active oven timer.');
+  const [ovenHours, setOvenHours] = useState('0');
+  const [ovenMinutes, setOvenMinutes] = useState('0');
+  const [ovenSeconds, setOvenSeconds] = useState('5');
 
   const lastShakeAt = useRef(0);
 
@@ -136,6 +139,21 @@ export default function BootcampScreen() {
   };
 
   const startOvenTimer = async () => {
+    const parsedHours = Number.parseInt(ovenHours || '0', 10);
+    const parsedMinutes = Number.parseInt(ovenMinutes || '0', 10);
+    const parsedSeconds = Number.parseInt(ovenSeconds || '0', 10);
+
+    const safeHours = Number.isFinite(parsedHours) ? Math.max(0, parsedHours) : 0;
+    const safeMinutes = Number.isFinite(parsedMinutes) ? Math.min(59, Math.max(0, parsedMinutes)) : 0;
+    const safeSeconds = Number.isFinite(parsedSeconds) ? Math.min(59, Math.max(0, parsedSeconds)) : 0;
+
+    const totalSeconds = (safeHours * 3600) + (safeMinutes * 60) + safeSeconds;
+
+    if (totalSeconds <= 0) {
+      Alert.alert('Set timer', 'Please enter at least 1 second.');
+      return;
+    }
+
     const permission = await Notifications.requestPermissionsAsync();
 
     if (!permission.granted) {
@@ -151,11 +169,11 @@ export default function BootcampScreen() {
       },
       trigger: {
         type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
-        seconds: 5,
+        seconds: totalSeconds,
       },
     });
 
-    setTimerMessage('Timer started: you will get a notification in 5 seconds.');
+    setTimerMessage(`Timer started: ${String(safeHours).padStart(2, '0')}:${String(safeMinutes).padStart(2, '0')}:${String(safeSeconds).padStart(2, '0')}.`);
   };
 
   return (
@@ -196,7 +214,51 @@ export default function BootcampScreen() {
         </View>
 
         <View style={[styles.card, { backgroundColor: theme.surface, borderColor: theme.border }]}> 
-          <Text style={[styles.title, { color: theme.text }]}>3) Oven timer (5 sec)</Text>
+          <Text style={[styles.title, { color: theme.text }]}>3) Oven timer</Text>
+          <View style={styles.timerInputRow}>
+            <View style={styles.timerColumn}>
+              <Text style={[styles.timerInputLabel, { color: theme.textMuted }]}>Hours</Text>
+              <TextInput
+                value={ovenHours}
+                onChangeText={setOvenHours}
+                keyboardType="number-pad"
+                maxLength={2}
+                style={[styles.timerInput, { color: theme.text, borderColor: theme.border, backgroundColor: theme.background }]}
+                placeholder="00"
+                placeholderTextColor={theme.textMuted}
+              />
+            </View>
+
+            <Text style={[styles.timerColon, { color: theme.text }]}>:</Text>
+
+            <View style={styles.timerColumn}>
+              <Text style={[styles.timerInputLabel, { color: theme.textMuted }]}>Minutes</Text>
+              <TextInput
+                value={ovenMinutes}
+                onChangeText={setOvenMinutes}
+                keyboardType="number-pad"
+                maxLength={2}
+                style={[styles.timerInput, { color: theme.text, borderColor: theme.border, backgroundColor: theme.background }]}
+                placeholder="00"
+                placeholderTextColor={theme.textMuted}
+              />
+            </View>
+
+            <Text style={[styles.timerColon, { color: theme.text }]}>:</Text>
+
+            <View style={styles.timerColumn}>
+              <Text style={[styles.timerInputLabel, { color: theme.textMuted }]}>Seconds</Text>
+              <TextInput
+                value={ovenSeconds}
+                onChangeText={setOvenSeconds}
+                keyboardType="number-pad"
+                maxLength={2}
+                style={[styles.timerInput, { color: theme.text, borderColor: theme.border, backgroundColor: theme.background }]}
+                placeholder="00"
+                placeholderTextColor={theme.textMuted}
+              />
+            </View>
+          </View>
           <Pressable style={[styles.button, { backgroundColor: theme.accent }]} onPress={startOvenTimer}>
             <Text style={[styles.buttonText, { color: theme.accentText }]}>Put cake in oven</Text>
           </Pressable>
@@ -250,6 +312,36 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     gap: 10,
+  },
+  timerInputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    flexWrap: 'wrap',
+  },
+  timerColumn: {
+    gap: 6,
+    alignItems: 'center',
+  },
+  timerInput: {
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    minWidth: 72,
+    alignItems: 'center',
+    fontSize: 14,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  timerInputLabel: {
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  timerColon: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginTop: 18,
   },
   button: {
     paddingHorizontal: 14,

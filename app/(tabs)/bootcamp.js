@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Pressable, ScrollView, Alert, Vibration, Switch, Linking, Platform, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Pressable, ScrollView, Alert, Vibration, Switch, Linking, Platform, TextInput } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
@@ -182,7 +183,7 @@ export default function BootcampScreen() {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}> 
-      <ScreenHeader title="Bootcamp Tasks" />
+      <ScreenHeader title="Bootcamp" />
 
       <ScrollView contentContainerStyle={styles.content}>
         <View style={[styles.card, { backgroundColor: theme.surface, borderColor: theme.border }]}> 
@@ -278,7 +279,7 @@ export default function BootcampScreen() {
           <Text style={[styles.bodyText, { color: theme.textMuted }]}>Shake your phone to get a random answer.</Text>
         </View>
 
-        <View style={[styles.card, { backgroundColor: theme.surface, borderColor: theme.border }]}> 
+        <View style={[styles.card, styles.lastCard, { backgroundColor: theme.surface, borderColor: theme.border }]}> 
           <View style={styles.themeRow}>
             <Text style={[styles.title, { color: theme.text }]}>5) Dark mode</Text>
             <Switch
@@ -307,6 +308,9 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 14,
     gap: 10,
+  },
+  lastCard: {
+    marginBottom: 14,
   },
   title: {
     fontSize: 18,

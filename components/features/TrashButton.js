@@ -1,12 +1,14 @@
 import { View, StyleSheet } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
-import Animated, { useAnimatedStyle, withSpring, WithSpring } from 'react-native-reanimated'
+import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated'
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useTheme } from '../../context/ThemeContext';
 
 
 
 export default function TrashButton({ isDraggingGlobal }) {
     const insets = useSafeAreaInsets();
+    const { theme } = useTheme();
 
 
     const trashAnimatedStyle = useAnimatedStyle(() => ({
@@ -22,7 +24,7 @@ export default function TrashButton({ isDraggingGlobal }) {
     return (
         <Animated.View style={[styles.container, trashAnimatedStyle, { bottom: insets.bottom + 90}]}>
             <View style={styles.circle}>
-                <Ionicons name="trash-outline" size={32} color={"#f9f8f4"} />
+                <Ionicons name="trash-outline" size={32} color={theme.accentText} />
             </View>
         </Animated.View>
     )

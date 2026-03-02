@@ -17,6 +17,13 @@ export const RECIPES = [
       'Agurk & Rødløg',
       'Fetaost',
       'Olivenolie & Citron'
+    ],
+    steps: [
+      'Skyl quinoa og kog den i letsaltet vand i ca. 12 minutter.',
+      'Krydr laks med salt, peber og lidt citron, og steg den 3-4 minutter pr. side.',
+      'Skær cherrytomater, agurk og rødløg i små stykker.',
+      'Fordel quinoa i en skål, top med grønt og laks, og drys feta over.',
+      'Afslut med olivenolie og frisk citronsaft før servering.'
     ]
   },
   {
@@ -35,6 +42,13 @@ export const RECIPES = [
       '1 Løg & 2 Fed Hvidløg',
       '400ml Kokosmælk',
       'Grøntsagsbouillon'
+    ],
+    steps: [
+      'Skær græskar, løg, hvidløg og ingefær i grove stykker.',
+      'Sautér løg, hvidløg og ingefær i en gryde i lidt olie.',
+      'Tilsæt græskar og bouillon, og lad det simre i 15-18 minutter.',
+      'Blend suppen glat og rør kokosmælk i.',
+      'Smag til med salt og peber, og server varm.'
     ]
   },
   {
@@ -53,6 +67,13 @@ export const RECIPES = [
       '2 spsk Smør',
       '1 Citron',
       'Salt & Peber'
+    ],
+    steps: [
+      'Dup kyllingen tør, og krydr med salt, peber og hakkede urter.',
+      'Varm en pande op med smør ved middel varme.',
+      'Steg kyllingen 5-6 minutter pr. side til gennemstegt.',
+      'Tilsæt citronsaft de sidste 1-2 minutter af stegningen.',
+      'Lad kyllingen hvile kort og skær den i skiver ved servering.'
     ]
   },
   {
@@ -71,6 +92,13 @@ export const RECIPES = [
       '1/2 Quinoa',
       'Spinat',
       'Tahindressing'
+    ],
+    steps: [
+      'Kog quinoa efter anvisning og lad den køle let af.',
+      'Skyl kikærter og rist dem på pande med krydderier i 5-7 minutter.',
+      'Skær avocado i skiver og skyl spinat.',
+      'Anret quinoa, spinat, kikærter og avocado i en bowl.',
+      'Top med tahindressing og server med det samme.'
     ]
   },
  {
@@ -90,6 +118,13 @@ export const RECIPES = [
       '3 Fed Hvidløg',
       'Chili Flakes',
       'Persille & Olivenolie'
+    ],
+    steps: [
+      'Kog spaghetti al dente i letsaltet vand.',
+      'Sautér hakket hvidløg og chili flakes i olivenolie ved lav varme.',
+      'Tilsæt rejer og steg dem kort til de er lyserøde.',
+      'Vend den kogte spaghetti i panden med lidt pastavand.',
+      'Top med frisk persille og server straks.'
     ]
   },
   {
@@ -108,6 +143,13 @@ export const RECIPES = [
       '3 spsk Kakao',
       '2 spsk Ahornsirup',
       '1 tsk Vanilje'
+    ],
+    steps: [
+      'Skrab avocado-kødet ud i en blender eller foodprocessor.',
+      'Tilsæt kakao, ahornsirup og vanilje.',
+      'Blend massen helt glat og cremet.',
+      'Smag til med ekstra sødme eller kakao efter behov.',
+      'Sæt på køl i 15 minutter og server.'
     ]
   }
 ];

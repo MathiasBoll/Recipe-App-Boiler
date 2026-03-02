@@ -5,10 +5,12 @@ import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import * as Haptics from 'expo-haptics'
 import { useRouter } from "expo-router";
 import {useFavorites} from '../context/FavoritesContext'
+import { useTheme } from '../../context/ThemeContext';
 
 
 export default function RecipeCard({recipe}) {
     const { toggleFavorite, isFavorite} = useFavorites();
+    const { theme } = useTheme();
     const saved = isFavorite(recipe.id)
     const router = useRouter();
 
@@ -59,17 +61,17 @@ export default function RecipeCard({recipe}) {
                         )}
                     </View>
                     
-                    <Text style={styles.cardTitle} numberOfLines={2}>{recipe.title}</Text>
+                    <Text style={[styles.cardTitle, { color: theme.text }]} numberOfLines={2}>{recipe.title}</Text>
 
                     <View style={styles.statsContainer}>
-                        <Ionicons name="time-outline" size={14} color="#666" />
-                        <Text style={styles.statsText}>{recipe.time}</Text>
+                        <Ionicons name="time-outline" size={14} color={theme.textMuted} />
+                        <Text style={[styles.statsText, { color: theme.textMuted }]}>{recipe.time}</Text>
 
-                        <Ionicons name="flame-outline" size={14} color="#666" style={{marginLeft: 8}} />
-                        <Text style={styles.statsText}>{recipe.calories}</Text>
+                        <Ionicons name="flame-outline" size={14} color={theme.textMuted} style={{marginLeft: 8}} />
+                        <Text style={[styles.statsText, { color: theme.textMuted }]}>{recipe.calories}</Text>
 
-                        <Ionicons name="nutrition-outline" size={14} color="#666" style={{marginLeft: 8}} />
-                        <Text style={styles.statsText}>{recipe.protein}</Text>
+                        <Ionicons name="nutrition-outline" size={14} color={theme.textMuted} style={{marginLeft: 8}} />
+                        <Text style={[styles.statsText, { color: theme.textMuted }]}>{recipe.protein}</Text>
                     </View>
                 </View>
             </GestureDetector>
@@ -78,7 +80,7 @@ export default function RecipeCard({recipe}) {
                   <Ionicons
                   name={saved ? "heart" : "heart-outline"}
                   size={24}
-                  color={saved ? "#E25D5D" : "#f9f8f4"}
+                color={saved ? "#E25D5D" : "#FFFFFF"}
                   />      
             </Pressable>
 

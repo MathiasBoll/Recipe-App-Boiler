@@ -4,11 +4,13 @@ import { FlashList } from '@shopify/flash-list';
 import { RECIPES, CATEGORIES } from '../../constants/data';
 import ScreenHeader from '../../components/ui/ScreenHeader';
 import { useState, useEffect, useRef } from 'react';
+import { useTheme } from '../../context/ThemeContext';
 
 import CategoryBar from '../../components/features/CategoryBar';
 import RecipeCard from '../../components/features/RecipeCard';
 
 export default function DiscoverScreen() {
+  const { theme } = useTheme();
   const [activeCategory, setActiveCategory] = useState('All Recipes')
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -42,7 +44,7 @@ export default function DiscoverScreen() {
 
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
       <ScreenHeader
       title="Recipes"
       searchQuery={searchQuery}

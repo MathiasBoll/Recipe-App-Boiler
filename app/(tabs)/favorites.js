@@ -8,9 +8,11 @@ import DraggableRecipeCard from '../../components/features/DraggableRecipeCard';
 import TrashButton from '../../components/features/TrashButton';
 import EmptyState from '../../components/ui/EmptyState';
 import ScreenHeader from '../../components/ui/ScreenHeader';
+import { useTheme } from '../../context/ThemeContext';
 
 
 export default function FavoritesScreen() {
+  const { theme } = useTheme();
     const {favorites} = useFavorites();
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -39,7 +41,7 @@ export default function FavoritesScreen() {
 
 
     return (
-        <SafeAreaView style={[styles.container]}>
+      <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
           <ScreenHeader
             title="Favorites"
             searchQuery={searchQuery}

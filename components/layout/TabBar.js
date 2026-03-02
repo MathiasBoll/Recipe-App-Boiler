@@ -1,24 +1,28 @@
 import { View, Pressable, Text, StyleSheet } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useTheme } from '../../context/ThemeContext';
 
 
 
 export default function CustomTabBar({state, navigation}) {
     const insets = useSafeAreaInsets()
-    const activeColor = '#35794A'
-    const inactiveColor = '#999999'
+    const { theme } = useTheme();
+    const activeColor = theme.accent
+    const inactiveColor = theme.tabInactive
+
+    const activeRoute = state.routes[state.index]?.name;
 
 
     return (
-        <View style={[styles.container, {paddingBottom: insets.bottom + 10}]}>
+        <View style={[styles.container, {paddingBottom: insets.bottom + 10, backgroundColor: theme.surface, borderTopColor: theme.border}]}>
 
             <Pressable
                 style={styles.tabButton}
                 onPress={() => navigation.navigate('index')}
             > 
-                <Ionicons  name={state.index === 0 ? "compass" : "compass-outline"}  size={28} color={state.index === 0 ? activeColor : inactiveColor}/>
-                <Text style={[styles.tabText, {color: state.index === 0 ? activeColor : inactiveColor}]}>
+                <Ionicons  name={activeRoute === 'index' ? "compass" : "compass-outline"}  size={28} color={activeRoute === 'index' ? activeColor : inactiveColor}/>
+                <Text style={[styles.tabText, {color: activeRoute === 'index' ? activeColor : inactiveColor}]}>
                     Explore
                 </Text>
             </Pressable>
@@ -28,9 +32,19 @@ export default function CustomTabBar({state, navigation}) {
                 style={styles.tabButton}
                 onPress={() => navigation.navigate('favorites')}
             > 
-                <Ionicons  name={state.index === 1 ? "heart" : "heart-outline"}  size={28} color={state.index === 1 ? activeColor : inactiveColor}/>
-                <Text style={[styles.tabText, {color: state.index === 1 ? activeColor : inactiveColor}]}>
+                <Ionicons  name={activeRoute === 'favorites' ? "heart" : "heart-outline"}  size={28} color={activeRoute === 'favorites' ? activeColor : inactiveColor}/>
+                <Text style={[styles.tabText, {color: activeRoute === 'favorites' ? activeColor : inactiveColor}]}>
                     Favorites
+                </Text>
+            </Pressable>
+
+            <Pressable
+                style={styles.tabButton}
+                onPress={() => navigation.navigate('bootcamp')}
+            >
+                <Ionicons  name={activeRoute === 'bootcamp' ? "flask" : "flask-outline"}  size={28} color={activeRoute === 'bootcamp' ? activeColor : inactiveColor}/>
+                <Text style={[styles.tabText, {color: activeRoute === 'bootcamp' ? activeColor : inactiveColor}]}>
+                    Bootcamp
                 </Text>
             </Pressable>
 
@@ -45,7 +59,6 @@ export default function CustomTabBar({state, navigation}) {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        backgroundColor: '#fff',
         position: 'absolute',
         bottom: 0,
         left: 0,

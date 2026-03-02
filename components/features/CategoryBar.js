@@ -1,9 +1,11 @@
 import { ScrollView, Pressable, Text, StyleSheet, View } from "react-native";
+import { useTheme } from '../../context/ThemeContext';
 
 
 
 export default function CategoryBar({categories, activeCategory, onSelectCategory}) {
-console.log(categories)
+const { theme } = useTheme();
+
 return (
     <View style={styles.wrapper}>
         <ScrollView
@@ -11,8 +13,8 @@ return (
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.container}>
                 {categories.map((cat) => (
-                    <Pressable key={cat} style={[styles.pill, activeCategory === cat && styles.activePill]} onPress={() => onSelectCategory(cat)}>
-                        <Text style={[styles.text, activeCategory === cat && styles.activeText]}>
+                    <Pressable key={cat} style={[styles.pill, { backgroundColor: theme.border }, activeCategory === cat && [styles.activePill, { backgroundColor: theme.accent }]]} onPress={() => onSelectCategory(cat)}>
+                        <Text style={[styles.text, { color: theme.textMuted }, activeCategory === cat && [styles.activeText, { color: theme.accentText }]]}>
                             {cat}
                         </Text>
 

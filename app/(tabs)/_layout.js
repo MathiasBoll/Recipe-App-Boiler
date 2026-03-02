@@ -12,6 +12,7 @@ export default function TabLayout() {
         options={{ title: 'Home' }}
       />
       <Tabs.Screen name='favorites' />
+      <Tabs.Screen name='bootcamp' options={{ title: 'Bootcamp' }} />
     </Tabs>
   );
 }

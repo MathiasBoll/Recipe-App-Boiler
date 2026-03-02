@@ -5,9 +5,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { RECIPES } from "../../constants/data";
 import { useFavorites } from "../../components/context/FavoritesContext";
+import { useTheme } from '../../context/ThemeContext';
 
 
 export default function DetailedRecipeScreen() {
+  const { theme } = useTheme();
     const { id } = useLocalSearchParams();
     const router = useRouter();
     const insets = useSafeAreaInsets();
@@ -18,6 +20,11 @@ export default function DetailedRecipeScreen() {
 
     const recipe = RECIPES.find((item) => item.id === id)
     const saved = isFavorite(recipe?.id)
+
+    const handleStartCooking = () => {
+      if (!recipe) return;
+      router.push(`/recipe/${recipe.id}/cook`);
+    }
 
 
     if (!recipe) {
@@ -33,7 +40,7 @@ export default function DetailedRecipeScreen() {
 
 
     return (
-        <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: theme.background }]}>
             <Image
             source={recipe.image}
             style={styles.headerImage}
@@ -44,11 +51,11 @@ export default function DetailedRecipeScreen() {
 
             <View style={[styles.floatingHeader, { top: insets.top}]}>
                 <Pressable style={styles.iconButton} onPress={() => router.back()}>
-                     <Ionicons name="arrow-back" size={24} color="#222" />
+                   <Ionicons name="arrow-back" size={24} color={theme.icon} />
                 </Pressable>
 
                 <Pressable style={styles.iconButton} onPress={() => toggleFavorite(recipe)}>
-                          <Ionicons name={saved ? "heart" : "heart-outline"} size={24} color={saved ? "#E25D5D" : "#222"} />
+                     <Ionicons name={saved ? "heart" : "heart-outline"} size={24} color={saved ? "#E25D5D" : theme.icon} />
                 </Pressable>
             </View>
 
@@ -56,43 +63,43 @@ export default function DetailedRecipeScreen() {
             <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.scrollContent}
-            style={styles.sheetContainer}
+            style={[styles.sheetContainer, { backgroundColor: theme.background }]}
             >
-                <View style={styles.badge}>
-                    <Text style={styles.badgeText}>{recipe.categories[0]}</Text>
+              <View style={[styles.badge, { backgroundColor: theme.border }]}>
+                <Text style={[styles.badgeText, { color: theme.accent }]}>{recipe.categories[0]}</Text>
                 </View>
 
-                <Text style={styles.title}>{recipe.title}</Text>
+              <Text style={[styles.title, { color: theme.text }]}>{recipe.title}</Text>
 
-                <View style={styles.statsWrapper}>
+                <View style={[styles.statsWrapper, { backgroundColor: theme.surface }]}>
                     <View style={styles.statItem}>
-                        <Ionicons name="time-outline" size={20} color="#35794A" />
-                        <Text style={styles.statLabel}>{recipe.time}</Text>
+                    <Ionicons name="time-outline" size={20} color={theme.accent} />
+                    <Text style={[styles.statLabel, { color: theme.textMuted }]}>{recipe.time}</Text>
                     </View>
 
                     <View style={styles.statItem}>
-                        <Ionicons name="flame-outline" size={20} color="#35794A" />
-                        <Text style={styles.statLabel}>{recipe.calories} kcal</Text>
+                    <Ionicons name="flame-outline" size={20} color={theme.accent} />
+                    <Text style={[styles.statLabel, { color: theme.textMuted }]}>{recipe.calories} kcal</Text>
                     </View>
 
                     <View style={styles.statItem}>
-                        <Ionicons name="nutrition-outline" size={20} color="#35794A" />
-                        <Text style={styles.statLabel}>{recipe.protein} protein</Text>
+                    <Ionicons name="nutrition-outline" size={20} color={theme.accent} />
+                    <Text style={[styles.statLabel, { color: theme.textMuted }]}>{recipe.protein} protein</Text>
                     </View>
                 </View>
 
-                <Text style={styles.sectionTitle}>Description</Text>
-                <Text style={styles.descriptionText}>
+                <Text style={[styles.sectionTitle, { color: theme.text }]}>Description</Text>
+                <Text style={[styles.descriptionText, { color: theme.textMuted }]}>
                     {recipe.description || "A delicious recipe waiting to be cooked"}
                 </Text>
 
-                <Text style={styles.sectionTitle}>Ingredients</Text>
+                <Text style={[styles.sectionTitle, { color: theme.text }]}>Ingredients</Text>
                 <View style={styles.ingredientsList}>
                     {recipe.ingredients?.map((ingredient, index) => (
                         <View key={index} style={styles.ingredientRow}> 
-                            <View style={styles.bulletPoint} />
+                      <View style={[styles.bulletPoint, { backgroundColor: theme.accent }]} />
 
-                            <Text style={styles.ingredientText}>{ingredient}</Text>
+                      <Text style={[styles.ingredientText, { color: theme.text }]}>{ingredient}</Text>
                         
                         </View>
                     ))}
@@ -103,9 +110,9 @@ export default function DetailedRecipeScreen() {
             </ScrollView>
 
 
-            <View style={[styles.bottomBar, {paddingBottom: insets.bottom}]}>
-                <Pressable style={({pressed}) => [styles.cookButton, { opacity: pressed? 0.8 : 1}]}>
-                    <Text style={styles.cookButtonText}>Start Cooking</Text>
+            <View style={[styles.bottomBar, {paddingBottom: insets.bottom, backgroundColor: theme.background, borderTopColor: theme.border}]}>
+              <Pressable onPress={handleStartCooking} style={({pressed}) => [styles.cookButton, { backgroundColor: theme.accent, opacity: pressed? 0.8 : 1}]}>
+                <Text style={[styles.cookButtonText, { color: theme.accentText }]}>Start Cooking</Text>
                 </Pressable>
             </View>
         </View>

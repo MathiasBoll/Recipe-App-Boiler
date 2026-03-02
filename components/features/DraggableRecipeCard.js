@@ -9,6 +9,7 @@ import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { useFavorites } from '../context/FavoritesContext';
 import { Image } from "expo-image";
+import { useTheme } from '../../context/ThemeContext';
 
 
 const SCREEN_HEIGHT = Dimensions.get('window').height
@@ -16,6 +17,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height
 
 export default function DraggableRecipeCard({ recipe, isDraggingGlobal }) {
 const { toggleFavorite } = useFavorites();
+const { theme } = useTheme();
 const router = useRouter();
 
 
@@ -96,13 +98,13 @@ return (
                     />
                 </View>
 
-                <Text style={styles.cardTitle} numberOfLines={2}>{recipe.title}</Text>
+                <Text style={[styles.cardTitle, { color: theme.text }]} numberOfLines={2}>{recipe.title}</Text>
 
                 <View style={styles.statsContainer}>
-                    <Ionicons name="time-outline" size={14} color="#666" />
-                    <Text style={styles.statsText}>{recipe.time}</Text>
-                    <Ionicons name="flame-outline" size={14} color="#666" style={{ marginLeft: 8}} />
-                    <Text style={styles.statsText}>{recipe.calories}</Text>
+                    <Ionicons name="time-outline" size={14} color={theme.textMuted} />
+                    <Text style={[styles.statsText, { color: theme.textMuted }]}>{recipe.time}</Text>
+                    <Ionicons name="flame-outline" size={14} color={theme.textMuted} style={{ marginLeft: 8}} />
+                    <Text style={[styles.statsText, { color: theme.textMuted }]}>{recipe.calories}</Text>
                 </View>
             </View>
 

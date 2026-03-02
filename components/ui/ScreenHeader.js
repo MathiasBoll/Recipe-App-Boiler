@@ -1,9 +1,11 @@
 import { View, Text, StyleSheet, Pressable, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useRef, useState } from 'react';
+import { useTheme } from '../../context/ThemeContext';
 
 
 export default function ScreenHeader({ title, searchQuery, onSearchQueryChange, searchPlaceholder = 'Search recipes...' }) {
+    const { theme } = useTheme();
 
     const isSearchEnabled = typeof searchQuery === 'string' && typeof onSearchQueryChange === 'function';
     const [isSearchVisible, setIsSearchVisible] = useState(false);
@@ -31,27 +33,27 @@ export default function ScreenHeader({ title, searchQuery, onSearchQueryChange, 
     return (
         <>
             <View style={styles.header}>
-                <Text style={styles.headerTitle}>
+                <Text style={[styles.headerTitle, { color: theme.text }]}>
                     {title}
                 </Text>
 
-                <Pressable style={styles.searchButton} onPress={handleSearchToggle}>
-                    <Ionicons name={isSearchVisible ? "close" : "search"} size={24} color="#222" />
+                <Pressable style={[styles.searchButton, { backgroundColor: theme.surface, borderColor: theme.border }]} onPress={handleSearchToggle}>
+                    <Ionicons name={isSearchVisible ? "close" : "search"} size={24} color={theme.icon} />
                 </Pressable>
             </View>
 
             {isSearchEnabled && isSearchVisible && (
-                <View style={styles.searchInputWrapper}>
-                    <Ionicons name="search" size={18} color="#666" />
+                <View style={[styles.searchInputWrapper, { borderColor: theme.border, backgroundColor: theme.surface }]}>
+                    <Ionicons name="search" size={18} color={theme.textMuted} />
                     <TextInput
                         ref={inputRef}
                         value={searchQuery}
                         onChangeText={onSearchQueryChange}
                         placeholder={searchPlaceholder}
-                        placeholderTextColor="#999"
+                        placeholderTextColor={theme.textMuted}
                         autoCapitalize="none"
                         autoCorrect={false}
-                        style={styles.searchInput}
+                        style={[styles.searchInput, { color: theme.text }]}
                     />
                 </View>
             )}

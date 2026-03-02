@@ -9,13 +9,13 @@ import ScreenHeader from '../../components/ui/ScreenHeader';
 import { useTheme } from '../../context/ThemeContext';
 
 const QUOTES = [
-  'Yes, absolutely.',
-  'Not now.',
-  'Try again later.',
-  'It is very likely.',
-  'Focus and ask again.',
-  'The signs point to yes.',
-  'No, but keep cooking.',
+  'Funny: Pasta is just spaghetti waiting for confidence.',
+  'Funny: If garlic says 1 clove, your heart says 4.',
+  'Funny: Stirring dramatically does not count as cardio.',
+  'Info: Salt added early helps vegetables release water faster.',
+  'Info: Resting cooked meat keeps more juices inside.',
+  'Info: A pinch of acid (lemon/vinegar) can brighten dull flavors.',
+  'Info: Medium heat usually gives better browning than high heat.',
 ];
 
 Notifications.setNotificationHandler({
@@ -100,6 +100,10 @@ export default function BootcampScreen() {
     if (!result.canceled && result.assets?.[0]?.uri) {
       setAvatarUri(result.assets[0].uri);
     }
+  };
+
+  const clearPhoto = () => {
+    setAvatarUri(null);
   };
 
   const getMyLocation = async () => {
@@ -198,6 +202,9 @@ export default function BootcampScreen() {
             </Pressable>
             <Pressable style={[styles.button, { backgroundColor: theme.surface, borderColor: theme.border, borderWidth: 1 }]} onPress={takePhoto}>
               <Text style={[styles.buttonText, { color: theme.text }]}>Open camera</Text>
+            </Pressable>
+            <Pressable style={[styles.button, { backgroundColor: theme.surface, borderColor: theme.border, borderWidth: 1 }]} onPress={clearPhoto}>
+              <Text style={[styles.buttonText, { color: theme.text }]}>Remove photo</Text>
             </Pressable>
           </View>
         </View>
@@ -312,6 +319,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     gap: 10,
+    flexWrap: 'wrap',
   },
   timerInputRow: {
     flexDirection: 'row',

@@ -4,11 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import * as Haptics from 'expo-haptics'
 import { useRouter } from "expo-router";
-<<<<<<< HEAD
 import {useFavorites} from '../context/FavoritesContext'
-=======
-import {useFavorites} from '../../context/FavoritesContext'
->>>>>>> 801b16471eca3b330dfce1b3b97d4c46743aef18
 
 
 export default function RecipeCard({recipe}) {

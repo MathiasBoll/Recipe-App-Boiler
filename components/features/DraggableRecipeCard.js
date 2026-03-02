@@ -7,11 +7,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-<<<<<<< HEAD
 import { useFavorites } from '../context/FavoritesContext';
-=======
-import { useFavorites } from '../../context/FavoritesContext';
->>>>>>> 801b16471eca3b330dfce1b3b97d4c46743aef18
 import { Image } from "expo-image";
 
 

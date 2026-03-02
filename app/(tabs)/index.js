@@ -10,7 +10,6 @@ import RecipeCard from '../../components/features/RecipeCard';
 
 export default function DiscoverScreen() {
   const [activeCategory, setActiveCategory] = useState('All Recipes')
-<<<<<<< HEAD
   const [searchQuery, setSearchQuery] = useState('')
 
   const categoryFiltered = activeCategory === 'All Recipes'
@@ -34,10 +33,6 @@ export default function DiscoverScreen() {
         ingredients.includes(normalizedQuery)
       )
     })
-=======
-
-  const filtered = activeCategory === 'All Recipes' ? RECIPES : RECIPES.filter(recipe => recipe.categories?.includes(activeCategory))
->>>>>>> 801b16471eca3b330dfce1b3b97d4c46743aef18
 
   const listRef = useRef(null)
 
@@ -48,15 +43,11 @@ export default function DiscoverScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-<<<<<<< HEAD
       <ScreenHeader
       title="Recipes"
       searchQuery={searchQuery}
       onSearchQueryChange={setSearchQuery}
       />
-=======
-        <ScreenHeader title="Recipes" />
->>>>>>> 801b16471eca3b330dfce1b3b97d4c46743aef18
         <CategoryBar
         categories={CATEGORIES}
         activeCategory={activeCategory}
@@ -66,11 +57,7 @@ export default function DiscoverScreen() {
         <FlashList
         ref={listRef}
         data={filtered}
-<<<<<<< HEAD
         keyExtractor={(item) => item.id}
-=======
-        key={(item) => item.id}
->>>>>>> 801b16471eca3b330dfce1b3b97d4c46743aef18
         numColumns={2}
         estimatedItemSize={200}
         showsVerticalScrollIndicator={false}

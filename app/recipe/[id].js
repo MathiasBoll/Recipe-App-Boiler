@@ -4,11 +4,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { RECIPES } from "../../constants/data";
-<<<<<<< HEAD
 import { useFavorites } from "../../components/context/FavoritesContext";
-=======
-import { useFavorites } from "../../context/FavoritesContext";
->>>>>>> 801b16471eca3b330dfce1b3b97d4c46743aef18
 
 
 export default function DetailedRecipeScreen() {
@@ -25,11 +21,14 @@ export default function DetailedRecipeScreen() {
 
 
     if (!recipe) {
-        <View style={styles.errorContainer}>
-            <Text>Opskriften blev ikke fundet</Text>
-            <Pressable onPress={() => {router.back()}}>Gå tilbage</Pressable>
-
-        </View>
+    return (
+      <View style={styles.errorContainer}>
+        <Text>Opskriften blev ikke fundet</Text>
+        <Pressable onPress={() => {router.back()}}>
+          <Text>Gå tilbage</Text>
+        </Pressable>
+      </View>
+    )
     }
 
 

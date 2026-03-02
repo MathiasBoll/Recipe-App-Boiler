@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { View, Text, StyleSheet, Pressable, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useRef, useState } from 'react';
@@ -57,27 +56,6 @@ export default function ScreenHeader({ title, searchQuery, onSearchQueryChange, 
                 </View>
             )}
         </>
-=======
-import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-
-
-export default function ScreenHeader({ title }) {
-
-
-    return (
-        <View style={styles.header}>
-            <Text style={styles.headerTitle}>
-                {title}
-            </Text>
-
-            <Pressable style={styles.searchButton}>
-                   <Ionicons name="search" size={24} color="#222" />
-            </Pressable>
-
-
-        </View>
->>>>>>> 801b16471eca3b330dfce1b3b97d4c46743aef18
     )
 }
 
@@ -104,7 +82,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 1,
         borderColor: '#EBE9E0'
-<<<<<<< HEAD
     },
     searchInputWrapper: {
         marginHorizontal: 20,
@@ -123,8 +100,6 @@ const styles = StyleSheet.create({
         flex: 1,
         fontSize: 14,
         color: '#222',
-=======
->>>>>>> 801b16471eca3b330dfce1b3b97d4c46743aef18
     }
 
 

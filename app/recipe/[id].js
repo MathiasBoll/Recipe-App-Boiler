@@ -50,11 +50,11 @@ export default function DetailedRecipeScreen() {
 
 
             <View style={[styles.floatingHeader, { top: insets.top}]}>
-                <Pressable style={styles.iconButton} onPress={() => router.back()}>
+              <Pressable style={[styles.iconButton, { backgroundColor: theme.surface, borderColor: theme.border }]} onPress={() => router.back()}>
                    <Ionicons name="arrow-back" size={24} color={theme.icon} />
                 </Pressable>
 
-                <Pressable style={styles.iconButton} onPress={() => toggleFavorite(recipe)}>
+              <Pressable style={[styles.iconButton, { backgroundColor: theme.surface, borderColor: theme.border }]} onPress={() => toggleFavorite(recipe)}>
                      <Ionicons name={saved ? "heart" : "heart-outline"} size={24} color={saved ? "#E25D5D" : theme.icon} />
                 </Pressable>
             </View>
@@ -148,6 +148,8 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     backgroundColor: '#f9f8f4',
+    borderWidth: 1,
+    borderColor: '#EBE9E0',
     borderRadius: 22,
     justifyContent: 'center',
     alignItems: 'center',
